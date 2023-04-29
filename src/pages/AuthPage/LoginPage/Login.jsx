@@ -1,12 +1,28 @@
 import FormInput from '../../../components/FormInput'
-import { useState ,React} from 'react';
+import AuthService from '../../../services/auth.service';
+import {useState} from 'react';
+import { useNavigate,useLocation} from "react-router-dom";
+import useAuth from '../../../hooks/useAuth';
 import "./Login.css";
+
+
+
 const Login =() => {
 
-  const [values, setValues] = useState({
+  const {setAuth} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home/laborant";
+
+
+
+  const [user, setUser] = useState({
     laborant_id: "",
     password: ""
   });
+
+  // const [successful, setSuccessful] = useState(false);
+  // const [message, setErrMsg] = useState("");
 
   const inputs =[
     {
@@ -21,7 +37,7 @@ const Login =() => {
       required: true,
     },
     {
-      id: 4,
+      id: 2,
       name: "password",
       type: "password",
       placeholder: "Password",
@@ -33,23 +49,45 @@ const Login =() => {
     }
   ]
 
+
   const handleSubmit = (e) => {
+    // setErrMsg("");
+    // setSuccessful(false);
     e.preventDefault();
+
+    console.log("test login")
+
+    try{
+      AuthService.login(user).then( (response)=>{
+
+        if(response.status===false){
+        }else{
+          const accessToken = localStorage.getItem("token");
+          const role = localStorage.getItem("role")
+          setAuth({accessToken,role});
+          console.log("setAuth : ",setAuth)
+          navigate(from,{replace:true});
+        }
+        console.log(response)
+      })
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
+        <h1>Login</h1>
         {inputs.map((input) => (
           <FormInput
             key={input.id}
             {...input}
-            value={values[input.name]}
+            value={user[input.name]}
             onChange={onChange}
           />
         ))}

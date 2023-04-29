@@ -1,9 +1,16 @@
 import React from 'react';
 import "./Register.css"
-import { useState } from "react";
+import {useState } from "react";
+import AuthService from '../../../services/auth.service';
+import { useNavigate} from "react-router-dom";
 import FormInput from '../../../components/FormInput';
 
+
+
+
 const Register = () => {
+
+  const navigate =useNavigate();
 
   const [values, setValues] = useState({
     name: "",
@@ -12,6 +19,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
+  //const [successful, setSuccessful] = useState(false);
+  //const [message, setErrMsg] = useState("");
 
   const inputs =[
 
@@ -37,11 +47,11 @@ const Register = () => {
     },
     {
       id: 3,
-      name: "laboran_id",
+      name: "laborant_id",
       type: "text",
-      placeholder: "laboran_id",
+      placeholder: "laborant_id",
       errorMessage: "It should be a valid laboran_id address!",
-      label: "laboran_id",
+      label: "laborant_id",
       required: true,
     },
     {
@@ -68,25 +78,60 @@ const Register = () => {
   ]
 
   const handleSubmit = (e) => {
+    console.log("test 1")
+
+//    setErrMsg("");
+ //   setSuccessful(false);
+
+
     e.preventDefault();
-  };
+    try{
+      AuthService.register(values).then((response) => {
+        if(response.data.status===false){
+          //setErrMsg(response.data.message)
+          console.log(response.data.message)
+        }else{
+          //setSuccessful(true)
+          setValues("","","","","")
+          navigate("/login")
+        
+        }
+      console.log(response)
+      })
+    }catch(err){
+      console.log("error ERROR")
+      if (!err?.response) {
+        //setErrMsg('No Server Response');
+    } else {
+        //setErrMsg(err.response.message)
+    }
+}
+    }
+
+
+  
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  return (<div className='App'>
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
-      {inputs.map((input)=>(
-        <FormInput key={input.id}
-        {...input}value={values[input.name]}
-        onChange={onChange}
-        />
-      ))}
+  return (<>
+  
+ {(
+ <div className='App'>
+  <form onSubmit={handleSubmit}>
+    <h2>Register</h2>
+    {inputs.map((input)=>(
+      <FormInput key={input.id}
+      {...input}value={values[input.name]}
+      onChange={onChange}
+      />
+    ))}
       <button>sign up</button>
-    </form>
-  </div>)
+  </form>
+</div>)}
+
+  </>)
 }
 
 export default Register
