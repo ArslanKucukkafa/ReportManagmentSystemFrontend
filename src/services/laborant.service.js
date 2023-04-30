@@ -18,9 +18,15 @@ const listReport = () =>{
     return axios.get(API_URL+"/api/v1/laboratories/getAllReports",{headers:header})
 }
 
+const getReport = (data) =>{
+    console.log("data -----: ",data)
+    return axios.get(API_URL+"/api/v1/laboratories/getReport?reportId="+data,{headers:header})
+}
+
 const LaborantService = {
     saveReport,
-    listReport
+    listReport,
+    getReport
   }
 
   export default LaborantService

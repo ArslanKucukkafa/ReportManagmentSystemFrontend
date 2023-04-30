@@ -3,29 +3,35 @@ import Table from 'react-bootstrap/Table';
 import "./Laborant.css";
 import laborantService from '../../../services/laborant.service.js'
 import ReactPaginate from "react-paginate";
-import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 function Laborant() {
 
-  const [loading, setLoading] = useState(false)
+
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [reports, setReports] = useState([]);
+
 
 useEffect(()=>{
   const fetchPosts = async () =>{
   setLoading(true)
-  const res = await laborantService.listReport()
-  console.log("Respofcdses",res)
-  setReports(res.data)
-  setLoading(false)
+  const res = await laborantService.listReport();
+  console.log("Respofcdses",res);
+  setReports(res.data);
+  setLoading(false);
 
   }
   fetchPosts()
 },[])
 
- 
+const changeReportId =(value)=>{
+  // Route will be change when moved to proctected _--WARNING
+  navigate("/detail",{state:{reportId:value}})
+  console.log(value);
+}
 
-  console.log("Data assign is SUCCES: ",reports)
 
 
   const [pageNumber, setPageNumber] = useState(0);
@@ -41,7 +47,7 @@ useEffect(()=>{
       <th>{report.patient_firstname}</th>
       <th>{report.patient_lastname}</th>
       <th>{report.create_date}</th>
-      <button class="button-32">incele</button>    </tr>
+      <button className="button-32" onClick={()=>changeReportId(report.reportId)}>incele</button>    </tr>
     );
   });
 
@@ -71,7 +77,6 @@ useEffect(()=>{
       <tbody>
         {displayUsers}
       </tbody>
-      <br/>
       <ReactPaginate 
         previousLabel={"Previous"}
         nextLabel={"Next"}
