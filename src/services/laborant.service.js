@@ -9,9 +9,17 @@ const header ={
 }
 
 
-const saveReport = (report) =>{
+const saveReport = (formData) =>{
     console.log(header)
-    return axios.post(API_URL+"/api/v1/laboratories/saveReport",report,{headers:header})
+    return axios.post(API_URL+"/api/v1/laboratories/saveReport",formData,{headers:header})
+}
+
+const updateReport = (formData) =>{
+    return axios.put(API_URL+"/api/v1/laboratories/updateReport",formData,{headers:header}) 
+}
+
+const deleteReport = (reportId) =>{
+    return axios.post(API_URL+"/api/v1/laboratories/deleteReport?report_id="+reportId,{headers:header})
 }
 
 const listReport = () =>{
@@ -26,7 +34,9 @@ const getReport = (data) =>{
 const LaborantService = {
     saveReport,
     listReport,
-    getReport
+    getReport,
+    updateReport,
+    deleteReport
   }
 
   export default LaborantService

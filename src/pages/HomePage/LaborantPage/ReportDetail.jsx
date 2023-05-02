@@ -1,18 +1,23 @@
 import React,{useEffect} from 'react'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn,MDBInput,MDBTextArea } from 'mdb-react-ui-kit';
-import { useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import LaborantService from '../../../services/laborant.service';
 import { useState } from 'react';
-
+import AlertComponent from '../../../components/AlertComponent';
 
 function ReportDetail () {
-
+    const [state, setData] = useState([]);
     const location = useLocation();
-    // const [loading, setLoading] = useState(false);
+    const [response,SetResponse]=useState({
+      message:"",
+      status:false
+    })
 
+    var [image,setImage] = useState();
+    var [imageFile ,setImageFile]=useState();
 
     const [report, setReport] = useState({
-      patient_firstname: Date,
+      patient_firstname: "",
       patient_lastname: "",
       patient_identity_no: "",
       dfnTitle: "",
@@ -25,13 +30,29 @@ function ReportDetail () {
         image_name:"",
         image_type:""
       }
-    });
+    });    
+
+
+  
+
+    const selectHandleImage =(event) =>{
+    var reader = new FileReader();
+    const file =event.target.files[0]
+    reader.readAsDataURL(file);
+    reader.onload = (_event) => {
+			setImage(reader.result)
+      setImageFile(file)
+    };
+    }
+
+
 
     const displayReport = () =>{
         LaborantService.getReport(location?.state.reportId).then((res)=>{
-            console.log(res);
-            console.log("location?.state.data : ",location?.state.data)
-            setReport(res.data)})
+            setReport(res.data)
+            var strImage="data:"+res.data.image.image_type+";base64,"+res.data.image.data;
+            setImage(strImage)
+          })   
     }
 
     useEffect(() => {
@@ -43,8 +64,32 @@ function ReportDetail () {
 
 
      const onTodoChange =(event)=>{
-      setReport()
+      const { name, value } = event.target;
+      setReport((prevState) =>({
+        ...prevState,
+        [name]:value
+      }))
     }
+
+
+    const viewReport=()=>{
+      console.log(report);
+    }
+
+    const updateReport=()=>{
+      let file = imageFile;
+      let formData= new FormData();
+      setReport((prevState) =>({
+        ...prevState,
+        create_date:Date.now }))
+
+      const reportBlob=new Blob([JSON.stringify(report)], {type: 'application/json'});
+      formData.append('ReportGetDto',reportBlob);
+      formData.append('image',file,file.name)
+      LaborantService.updateReport(formData).then((res)=>{
+        SetResponse(res.data)
+      })
+  }
 
 
   return (
@@ -57,8 +102,9 @@ function ReportDetail () {
               <div className="d-flex text-black">
                 <div className="flex-shrink-0">
                   <MDBCardImage
+                    image_name="image"
                     style={{ width: '300px',height:'400px', borderRadius: '5px' }}
-                    src={'data:'+report.image.image_type+';base64,'+report.image.data}
+                    src={image}
                     alt='Generic placeholder image'
                     fluid />
                 </div>
@@ -86,7 +132,7 @@ function ReportDetail () {
                     style={{ backgroundColor: '#efefef' }}> 
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Default file input example</label>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input class="form-control" type="file" id="formFile" onChange={selectHandleImage}/>
                 </div>
                   </div>
  
@@ -95,7 +141,7 @@ function ReportDetail () {
                     style={{ backgroundColor: '#efefef' }}>
                     <div>
                       <p className="large text-muted mb-1">Tanı</p>
-                      <MDBInput id='form1' placeholder={report.dfnTitle} type='text' size='lg' style={{ width: '400px',  }} />
+                      <MDBInput name='dfnTitle' id='form1' placeholder={report.dfnTitle} type='text' size='lg' style={{ width: '400px',  }} onChange={onTodoChange} />
                     </div>
                   </div>
 
@@ -103,13 +149,17 @@ function ReportDetail () {
                     style={{ backgroundColor: '#efefef' }}>
                     <div>
                       <p className="large text-muted mb-1">Detay</p>
-                      <MDBTextArea label='Message' id='textAreaExample' rows={7} style={{ width: '900px', borderRadius: '5px' }} placeholder={report.dfnDetails}/>
+                      <MDBTextArea name='dfnDetails' label='Message' id='textAreaExample' rows={7} style={{ width: '900px', borderRadius: '5px' }} placeholder={report.dfnDetails} onChange={onTodoChange}/>
                     </div>
                   </div>
 
                   <div className="d-flex pt-1">
-                    <MDBBtn className="me-1" color='danger'>Sil</MDBBtn>
-                    <MDBBtn className="flex-grow-1" onClick={displayReport}>Update</MDBBtn>
+                    <MDBBtn className="flex-grow-1" onClick={updateReport}>Update</MDBBtn>
+                    <ul>{state.map(item => <li key={item.id}>{item.name}</li>)}</ul>
+                    <AlertComponent res={response}/>
+                  </div>
+                  <div className="d-flex pt-1">
+                    <MDBBtn className="me-1" color='danger' onClick={viewReport}>Sil</MDBBtn>
                   </div>
                 </div>
               </div>
