@@ -4,6 +4,12 @@
     width: 280px;
 }
 
+.reportInput{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
 input{
     padding: 15px;
     margin: 10px 0px;
@@ -31,3 +37,4 @@ input:invalid[focused="true"]{
 input:invalid[focused="true"] ~ span{
     display: block;
 }
+

@@ -9,18 +9,15 @@ import { useNavigate } from 'react-router-dom';
 function Laborant() {
 
 
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
 
 
 useEffect(()=>{
   const fetchPosts = async () =>{
-  setLoading(true)
   const res = await laborantService.listReport();
   console.log("Respofcdses",res);
   setReports(res.data);
-  setLoading(false);
 
   }
   fetchPosts()
@@ -28,8 +25,8 @@ useEffect(()=>{
 
 const changeReportId =(value)=>{
   // Route will be change when moved to proctected _--WARNING
-  navigate("/detail",{state:{reportId:value}})
   console.log(value);
+  navigate("/home/detail",{state:{reportId:value}})
 }
 
 
@@ -57,9 +54,7 @@ const changeReportId =(value)=>{
     setPageNumber(selected);
   };
 
-  if (loading && reports.length === 0) {
-    return <h2>Loading...</h2>
-  }
+
 
 
   return (
@@ -88,7 +83,7 @@ const changeReportId =(value)=>{
         disabledClassName={"paginationDisabled"}
         activeClassName={"paginationActive"}/>
     </Table>
-    </div>
+  </div>
   )
 }
 

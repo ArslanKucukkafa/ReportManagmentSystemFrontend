@@ -11,7 +11,9 @@ import UnexpectedError from "./pages/ErrorPage/UnexpectedError"
 import ErrorPage from "./pages/ErrorPage/ErrorPage"
 import RequireAuth from './hooks/RequireAuth';
 import ReportDetail from './pages/HomePage/LaborantPage/ReportDetail';
-
+import ReportAdd from './pages/HomePage/LaborantPage/ReportAdd';
+import AdminLayout from './pages/HomePage/AdminLayout';
+import Unconfirmed from './pages/HomePage/AdminPage/Unconfirmed';
 const ROLES = {
   'laborant': "LABORANT",
   'admin': "ADMIN"
@@ -27,20 +29,24 @@ function App() {
               <Route path="login" element={<Login/>}/>
               <Route path="register" element={<Register/>}/>
               <Route path="*" element={<UnexpectedError/>}/>
-            </Route>
             {/* Protected Routes */}
-            <Route path="/home" element={<HomeLayout/>}>
               <Route element={<RequireAuth allowedRoles={[ROLES.laborant]}/>}>
-                <Route path = "laborant" element={<Laborant/>}/>
+                <Route path = '/home' element={<HomeLayout/>}>
+                  <Route path = 'reportAdd' element={<ReportAdd/>}/>
+                  <Route path = 'laborant' element={<Laborant/>}/>
+                  <Route path = 'detail' element={<ReportDetail/>}/>
+                </Route>
               </Route>
 
               <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
-                <Route path = "admin" element={<Admin/>}/>
+                <Route path ='/dene' element={<AdminLayout/>}>
+                  <Route path ='admin' element={<Admin/>}/>
+                  <Route path='unconfirmed' element={<Unconfirmed/>}/>
+                </Route>
               </Route>
-            </Route>
             {/* catch all */}
-            <Route path='detail' element={<ReportDetail/>}/>
             <Route path='error' element={<ErrorPage/>}/>
+            </Route>
           </Routes>
       </div>
     </div>

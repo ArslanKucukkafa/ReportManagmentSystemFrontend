@@ -2,18 +2,14 @@ import FormInput from '../../../components/FormInput'
 import AuthService from '../../../services/auth.service';
 import {useState} from 'react';
 import { useNavigate,useLocation} from "react-router-dom";
-import useAuth from '../../../hooks/useAuth';
 import "./Login.css";
-
-
+import {useEffect} from 'react'
 
 const Login =() => {
 
-  const {setAuth} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/home/laborant";
-
+  console.log(location.state?.from?.pathname)
 
 
   const [user, setUser] = useState({
@@ -21,8 +17,6 @@ const Login =() => {
     password: ""
   });
 
-  // const [successful, setSuccessful] = useState(false);
-  // const [message, setErrMsg] = useState("");
 
   const inputs =[
     {
@@ -51,29 +45,44 @@ const Login =() => {
 
 
   const handleSubmit = (e) => {
-    // setErrMsg("");
-    // setSuccessful(false);
+    localStorage.clear()
     e.preventDefault();
+    let response=null
+    let accessToken= "";
+    let role="";
+    let from="";
+    AuthService.login(user).then((res)=>{
+    response=res;
+      console.log(response)
+      if(response.data.status===true){
+          if(response.data.rol==='ADMIN'){
+            console.log("ADMIN")
+            accessToken=response.data.token
+            role=response.data.rol
+            from = "/dene/admin";} 
 
-    console.log("test login")
-
-    try{
-      AuthService.login(user).then( (response)=>{
-
-        if(response.status===false){
-        }else{
-          const accessToken = localStorage.getItem("token");
-          const role = localStorage.getItem("role")
-          setAuth({accessToken,role});
-          console.log("setAuth : ",setAuth)
+          else if(response.data.rol==='LABORANT'){
+            console.log("LABORANT")
+            accessToken=response.data.token
+            role=response.data.rol
+            from = "/home/laborant";}
+          }
+          localStorage.setItem("accesToken",res.data.token);
+          localStorage.setItem("role",res.data.rol);
+          console.log("from: "+from)
           navigate(from,{replace:true});
-        }
-        console.log(response)
+            
+        
       })
-    }catch(error){
-      console.error(error);
-    }
-  };
+  }
+
+  useEffect(() => {
+    let ignore = false;
+    
+    if (!ignore)  localStorage.clear()
+    return () => { ignore = true; }
+    },[]);
+
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

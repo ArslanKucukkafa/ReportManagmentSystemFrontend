@@ -8,16 +8,7 @@ const register = (values) => {
   };
 
   const login = (values) => {
-    return axios
-      .post(API_URL + "/api/v1/laboratories/login",values,{headers: { 'Content-Type': 'application/json' },})
-      .then((response) => {
-        if (response.data.status) {
-          localStorage.setItem("token",response.data.token);
-          localStorage.setItem("role",response.data.rol);
-        }else{}
-        return response.data;
-      });
-  };
+   return axios.post(API_URL + "/api/v1/laboratories/login",values,{headers: { 'Content-Type': 'application/json' },})};
 
   const logout = () => {
     localStorage.clear();};

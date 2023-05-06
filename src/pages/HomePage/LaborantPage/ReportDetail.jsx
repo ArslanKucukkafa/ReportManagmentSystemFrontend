@@ -1,17 +1,13 @@
 import React,{useEffect} from 'react'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn,MDBInput,MDBTextArea } from 'mdb-react-ui-kit';
-import {  useLocation } from 'react-router-dom';
+import {  useLocation, useNavigate } from 'react-router-dom';
 import LaborantService from '../../../services/laborant.service';
 import { useState } from 'react';
-import AlertComponent from '../../../components/AlertComponent';
+
 
 function ReportDetail () {
-    const [state, setData] = useState([]);
     const location = useLocation();
-    const [response,SetResponse]=useState({
-      message:"",
-      status:false
-    })
+    const navigate = useNavigate();
 
     var [image,setImage] = useState();
     var [imageFile ,setImageFile]=useState();
@@ -32,9 +28,6 @@ function ReportDetail () {
       }
     });    
 
-
-  
-
     const selectHandleImage =(event) =>{
     var reader = new FileReader();
     const file =event.target.files[0]
@@ -45,14 +38,12 @@ function ReportDetail () {
     };
     }
 
-
-
     const displayReport = () =>{
         LaborantService.getReport(location?.state.reportId).then((res)=>{
             setReport(res.data)
             var strImage="data:"+res.data.image.image_type+";base64,"+res.data.image.data;
             setImage(strImage)
-          })   
+          })
     }
 
     useEffect(() => {
@@ -71,24 +62,31 @@ function ReportDetail () {
       }))
     }
 
-
-    const viewReport=()=>{
-      console.log(report);
-    }
-
     const updateReport=()=>{
+      let update={
+        patient_firstname: report.patient_firstname,
+        patient_lastname: report.patient_lastname,
+        patient_identity_no: report.patient_identity_no,
+        dfnTitle: report.dfnTitle,
+        dfnDetails: report.dfnDetails,
+        reportId:report.reportId
+      }
       let file = imageFile;
       let formData= new FormData();
-      setReport((prevState) =>({
-        ...prevState,
-        create_date:Date.now }))
 
-      const reportBlob=new Blob([JSON.stringify(report)], {type: 'application/json'});
+      const reportBlob=new Blob([JSON.stringify(update)], {type: 'application/json'});
       formData.append('ReportGetDto',reportBlob);
       formData.append('image',file,file.name)
       LaborantService.updateReport(formData).then((res)=>{
-        SetResponse(res.data)
+        alert(res.data.message)
       })
+  }
+
+  const deleteReport = () =>{
+    LaborantService.deleteReport(report.reportId).then((response) =>{
+      alert(response.data.message)
+    })
+      navigate("/home/laborant")
   }
 
 
@@ -130,9 +128,9 @@ function ReportDetail () {
 
                   <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
                     style={{ backgroundColor: '#efefef' }}> 
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Default file input example</label>
-                    <input class="form-control" type="file" id="formFile" onChange={selectHandleImage}/>
+                <div className="mb-3">
+                    <label htmlFor="formFile" className="form-label">Default file input example</label>
+                    <input className="form-control" type="file" id="formFile" onChange={selectHandleImage}/>
                 </div>
                   </div>
  
@@ -154,12 +152,8 @@ function ReportDetail () {
                   </div>
 
                   <div className="d-flex pt-1">
-                    <MDBBtn className="flex-grow-1" onClick={updateReport}>Update</MDBBtn>
-                    <ul>{state.map(item => <li key={item.id}>{item.name}</li>)}</ul>
-                    <AlertComponent res={response}/>
-                  </div>
-                  <div className="d-flex pt-1">
-                    <MDBBtn className="me-1" color='danger' onClick={viewReport}>Sil</MDBBtn>
+                  <MDBBtn className="me-1" color='danger' onClick={deleteReport}>Sil</MDBBtn>
+                  <MDBBtn className="flex-grow-1" onClick={updateReport}>Update</MDBBtn>
                   </div>
                 </div>
               </div>
