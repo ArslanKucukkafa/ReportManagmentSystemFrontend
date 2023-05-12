@@ -5,10 +5,7 @@ import adminService from "../../../services/admin.service"
 import Table from 'react-bootstrap/Table';
 
 function Unconfirmed() {
-
     const [laborants, setLaborants] = useState([]);
-
-
     useEffect(()=>{
         const fetchPosts = async () =>{
         const res = await adminService.getLaborantList(false);
@@ -26,7 +23,6 @@ function Unconfirmed() {
 
       const laborantsPerPage = 5;
       const pagesVisited = pageNumber * laborantsPerPage;
-
       const displayUsers = laborants.slice(pagesVisited, pagesVisited + laborantsPerPage)
       .map((laborant) => {
         return (
@@ -46,10 +42,12 @@ function Unconfirmed() {
 
       const deletLaborant =(value)=>{
         adminService.deleteLaborant(value).then((response) => {console.log(response)})
+        window.location.reload();
       }
 
       const activateLaborant = (value) => {
         adminService.laborantAccountActive(true,value).then((response) => {console.log(response)})
+        window.location.reload();
       }
 
 

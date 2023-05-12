@@ -15,6 +15,7 @@ export default function LaborantLayout(){
                     <Nav className="ms-auto">
                     <Nav.Link href="reportAdd">Report add</Nav.Link>
                     <Nav.Link href="reports">Report List</Nav.Link>
+                    <Nav.Link href="/login">logout</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

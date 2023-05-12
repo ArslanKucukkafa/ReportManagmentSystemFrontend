@@ -15,6 +15,7 @@ export default function HomeLayout(){
                 <Nav className="ms-auto">
                 <Nav.Link href="list">Aktif Hesaplar</Nav.Link>
                 <Nav.Link href="unconfirmed">Onay Bekleyenler</Nav.Link>
+                <Nav.Link href="/login">logout</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
             </Container>
