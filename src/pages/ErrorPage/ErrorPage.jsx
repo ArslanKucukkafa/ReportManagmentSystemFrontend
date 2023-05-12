@@ -5,9 +5,9 @@ import "./unexpectedError.css"
 function ErrorPage() {
   return (
     <div className='dvstyle'>
-        <h1 > Ecception Occures</h1>
+        <h1 > Ecception Occured</h1>
         <br />
-        <h3>spring boot da hata oluştu Lütfen destek ekibi ile iletişime geçiniz </h3>
+        <h3>Failed to Authorize</h3>
     </div>
   )
 }

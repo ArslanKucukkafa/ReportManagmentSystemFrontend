@@ -7,18 +7,15 @@ import Table from 'react-bootstrap/Table';
 
 function Admin() {
 
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [laborants, setLaborants] = useState([]);
 
 
   useEffect(()=>{
     const fetchPosts = async () =>{
-    setLoading(true)
     const res = await adminService.getLaborantList(true);
     console.log("Respofcdses",res);
     setLaborants(res.data);
-    setLoading(false);
     }
     fetchPosts()
   },[])
@@ -48,7 +45,7 @@ function Admin() {
   const pageCount = Math.ceil(laborants.length / laborantsPerPage);
 
   const changeLaborantId =(value)=>{
-    navigate("/home/detail",{state:{laborantId:value}})
+    navigate("/dene/profile",{state:{laborantId:value}})
   }
 
   return (

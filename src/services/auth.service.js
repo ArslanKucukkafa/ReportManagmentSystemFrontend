@@ -11,8 +11,8 @@ const register = (values) => {
    return axios.post(API_URL + "/api/v1/laboratories/login",values,{headers: { 'Content-Type': 'application/json' },})};
 
   const logout = () => {
-    localStorage.clear();};
-
+    localStorage.removeItem("accesToken");
+    localStorage.removeItem("role");};
 
       const AuthService = {
         register,
@@ -21,3 +21,4 @@ const register = (values) => {
       }
 
       export default AuthService;
+

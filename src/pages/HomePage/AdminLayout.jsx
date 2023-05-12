@@ -13,8 +13,8 @@ export default function HomeLayout(){
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="ms-auto">
-                <Nav.Link href="unconfirmed">unconfirmed list</Nav.Link>
-                <Nav.Link href="admin">active account list</Nav.Link>
+                <Nav.Link href="admin">Aktif Hesaplar</Nav.Link>
+                <Nav.Link href="unconfirmed">Onay Bekleyenler</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
             </Container>

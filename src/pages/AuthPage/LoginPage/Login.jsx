@@ -65,14 +65,13 @@ const Login =() => {
             console.log("LABORANT")
             accessToken=response.data.token
             role=response.data.rol
-            from = "/home/laborant";}
+            from = "/home/reports";}
           }
-          localStorage.setItem("accesToken",res.data.token);
-          localStorage.setItem("role",res.data.rol);
+          localStorage.setItem("accesToken",JSON.stringify(res.data.token))
+          localStorage.setItem("role",JSON.stringify(res.data.rol));
+
           console.log("from: "+from)
           navigate(from,{replace:true});
-            
-        
       })
   }
 
@@ -101,6 +100,7 @@ const Login =() => {
           />
         ))}
         <button>Submit</button>
+        <p>Don't have an account? <a href="register" class="link-info">Register here</a></p>
       </form>
     </div>
   )

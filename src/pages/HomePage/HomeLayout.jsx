@@ -13,8 +13,8 @@ export default function HomeLayout(){
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto">
-                    <Link to="reportAdd">Home</Link>
-                    <Nav.Link href="reportAdd">report add</Nav.Link>
+                    <Nav.Link href="reportAdd">Report add</Nav.Link>
+                    <Nav.Link href="reports">Report List</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -3,8 +3,11 @@ import { useState } from 'react'
 import "./reportAdd.css"
 import icon from "./image/reportIcon.jpg"
 import LaborantService from '../../../services/laborant.service'
+import { useNavigate } from 'react-router-dom'
+
 const ReportAdd = () => {
 
+  const navigate = useNavigate();
   const [imageFile,setImageFile] = useState();
   const [image,setImage]=useState();
   const [report, setReport] = useState({
@@ -23,7 +26,6 @@ const ReportAdd = () => {
 		reader.onload = (_event) => {
 		let image=reader.result;
 		setImage(image)
-		
 	}
   }else{setImage(icon)}
 }
@@ -37,7 +39,9 @@ const saveReport = () => {
 
 	LaborantService.saveReport(formData).then((response)=>{
 		console.log(response)
-		alert(response.message)
+    if(response.data.status===true){
+      navigate("/home/reports")
+    }else{alert(response.data.message)} 
 	})
 }
 

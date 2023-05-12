@@ -15,7 +15,7 @@ function Laborant() {
 
 useEffect(()=>{
   const fetchPosts = async () =>{
-  const res = await laborantService.listReport();
+  const res = await laborantService.listReport().catch((error)=>{console.log(error); if(error==="Error: 403"){console.log("-*098767890876545678765")}});
   console.log("Respofcdses",res);
   setReports(res.data);
 

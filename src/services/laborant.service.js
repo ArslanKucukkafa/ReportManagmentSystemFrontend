@@ -1,16 +1,20 @@
 import axios from 'axios';
+import AuthService from './auth.service';
 
 const API_URL = "http://localhost:8080";
-const header ={
+
+const header = () =>{
+let token = JSON.parse(localStorage.getItem("accesToken"));
+return {
     'Accept':'*/*', 
     'Access-Control-Allow-Origin' : '*',
-    'Authorization': `Bearer ${localStorage.getItem("accesToken")}`
+    'Authorization': `Bearer `+token}
 }
 
 
 const saveReport = (formData) =>{
     console.log(header)
-    return axios.post(API_URL+"/api/v1/laboratories/saveReport",formData,{headers:header})
+    return axios.post(API_URL+"/api/v1/laboratories/saveReport",formData,{headers:header()})
 }
 
 const updateReport = (formData) =>{
@@ -21,23 +25,20 @@ const updateReport = (formData) =>{
         const report = JSON.parse(reader.result);
         console.log(report);
       };
-    
-
-    return axios.put(API_URL+"/api/v1/laboratories/updateReport",formData,{headers:header}) 
+    return axios.put(API_URL+"/api/v1/laboratories/updateReport",formData,{headers:header()}) 
 }
 
 const deleteReport = (reportId) =>{
-    return axios.post(API_URL+"/api/v1/laboratories/deleteReport?report_id="+reportId,null,{headers:header})
+    return axios.post(API_URL+"/api/v1/laboratories/deleteReport?report_id="+reportId,null,{headers:header()})
 }
 
 const listReport = () =>{
-    console.log(localStorage.getItem("accesToken"))
-    return axios.get(API_URL+"/api/v1/laboratories/getAllReports",{headers:header})
+    return axios.get(API_URL+"/api/v1/laboratories/getAllReports",{headers:header()})
 }
 
 const getReport = (data) =>{
     console.log("data -----: ",data)
-    return axios.get(API_URL+"/api/v1/laboratories/getReport?reportId="+data,{headers:header})
+    return axios.get(API_URL+"/api/v1/laboratories/getReport?reportId="+data,{headers:header()})
 }
 
 const LaborantService = {

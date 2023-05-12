@@ -128,6 +128,7 @@ const Register = () => {
       />
     ))}
       <button>sign up</button>
+      <p>Already Have account? <a href="login">Login</a></p>
   </form>
 </div>)}
 

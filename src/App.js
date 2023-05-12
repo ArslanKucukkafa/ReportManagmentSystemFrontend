@@ -14,6 +14,8 @@ import ReportDetail from './pages/HomePage/LaborantPage/ReportDetail';
 import ReportAdd from './pages/HomePage/LaborantPage/ReportAdd';
 import AdminLayout from './pages/HomePage/AdminLayout';
 import Unconfirmed from './pages/HomePage/AdminPage/Unconfirmed';
+import Profile from './pages/HomePage/AdminPage/Profile';
+
 const ROLES = {
   'laborant': "LABORANT",
   'admin': "ADMIN"
@@ -33,7 +35,7 @@ function App() {
               <Route element={<RequireAuth allowedRoles={[ROLES.laborant]}/>}>
                 <Route path = '/home' element={<HomeLayout/>}>
                   <Route path = 'reportAdd' element={<ReportAdd/>}/>
-                  <Route path = 'laborant' element={<Laborant/>}/>
+                  <Route path = 'reports' element={<Laborant/>}/>
                   <Route path = 'detail' element={<ReportDetail/>}/>
                 </Route>
               </Route>
@@ -42,6 +44,7 @@ function App() {
                 <Route path ='/dene' element={<AdminLayout/>}>
                   <Route path ='admin' element={<Admin/>}/>
                   <Route path='unconfirmed' element={<Unconfirmed/>}/>
+                  <Route path='profile' element={<Profile/>}/>
                 </Route>
               </Route>
             {/* catch all */}

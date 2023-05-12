@@ -10,7 +10,9 @@ function ReportDetail () {
     const navigate = useNavigate();
 
     var [image,setImage] = useState();
-    var [imageFile ,setImageFile]=useState();
+    var [imageFile ,setImageFile]=useState(null);
+    let formData= new FormData();
+
 
     const [report, setReport] = useState({
       patient_firstname: "",
@@ -34,8 +36,7 @@ function ReportDetail () {
     reader.readAsDataURL(file);
     reader.onload = (_event) => {
 			setImage(reader.result)
-      setImageFile(file)
-    };
+      setImageFile(file)};
     }
 
     const displayReport = () =>{
@@ -69,27 +70,34 @@ function ReportDetail () {
         patient_identity_no: report.patient_identity_no,
         dfnTitle: report.dfnTitle,
         dfnDetails: report.dfnDetails,
-        reportId:report.reportId
-      }
-      let file = imageFile;
-      let formData= new FormData();
+        reportId:report.reportId}
 
-      const reportBlob=new Blob([JSON.stringify(update)], {type: 'application/json'});
-      formData.append('ReportGetDto',reportBlob);
-      formData.append('image',file,file.name)
-      LaborantService.updateReport(formData).then((res)=>{
+      let file = imageFile;
+      if(file==null){
+       let base = "data:"+report.image.image_type+";base64,"+report.image.data
+       const byteCharacters = atob(base.replace(/^data:image\/(png|jpeg|jpg);base64,/, ""));
+       const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: report.image.image_type});
+        file=blob;}
+
+        const reportBlob=new Blob([JSON.stringify(update)], {type: 'application/json'});
+        formData.append('ReportGetDto',reportBlob);
+        formData.append('image',file,"filename")
+        LaborantService.updateReport(formData).then((res)=>{
         alert(res.data.message)
-      })
-  }
+        })
+      }
 
   const deleteReport = () =>{
     LaborantService.deleteReport(report.reportId).then((response) =>{
       alert(response.data.message)
     })
-      navigate("/home/laborant")
+      navigate("/home/reports")
   }
-
-
   return (
     <div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>
     <MDBContainer>
