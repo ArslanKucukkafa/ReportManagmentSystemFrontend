@@ -52,7 +52,7 @@ function ReportDetail () {
       
       if (!ignore)  displayReport()
       return () => { ignore = true; }
-      });
+      },[]);
 
 
      const onTodoChange =(event)=>{

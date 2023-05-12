@@ -22,7 +22,7 @@ function Profile() {
             setUser(res.data);
         }
         fetchPosts()
-    });
+    },[]);
 
 
 
