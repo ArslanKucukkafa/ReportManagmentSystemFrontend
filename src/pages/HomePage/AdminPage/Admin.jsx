@@ -45,7 +45,7 @@ function Admin() {
   const pageCount = Math.ceil(laborants.length / laborantsPerPage);
 
   const changeLaborantId =(value)=>{
-    navigate("/dene/profile",{state:{laborantId:value}})
+    navigate("/admin/profile",{state:{laborantId:value}})
   }
 
   return (

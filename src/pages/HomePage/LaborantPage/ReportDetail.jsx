@@ -52,7 +52,7 @@ function ReportDetail () {
       
       if (!ignore)  displayReport()
       return () => { ignore = true; }
-      },[]);
+      });
 
 
      const onTodoChange =(event)=>{
@@ -89,6 +89,7 @@ function ReportDetail () {
         formData.append('image',file,"filename")
         LaborantService.updateReport(formData).then((res)=>{
         alert(res.data.message)
+        window.location.reload()
         })
       }
 
@@ -96,7 +97,7 @@ function ReportDetail () {
     LaborantService.deleteReport(report.reportId).then((response) =>{
       alert(response.data.message)
     })
-      navigate("/home/reports")
+      navigate("/laborant/reports")
   }
   return (
     <div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>

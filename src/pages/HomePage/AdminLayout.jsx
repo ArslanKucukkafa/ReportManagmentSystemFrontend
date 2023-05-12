@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,7 +13,7 @@ export default function HomeLayout(){
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="ms-auto">
-                <Nav.Link href="admin">Aktif Hesaplar</Nav.Link>
+                <Nav.Link href="list">Aktif Hesaplar</Nav.Link>
                 <Nav.Link href="unconfirmed">Onay Bekleyenler</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>

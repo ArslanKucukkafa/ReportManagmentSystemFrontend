@@ -22,7 +22,7 @@ function Profile() {
             setUser(res.data);
         }
         fetchPosts()
-    },[]);
+    });
 
 
 
@@ -31,7 +31,7 @@ function Profile() {
             let data = response.data;
             if(data.status===true){
                 alert(data.message)
-                navigate("/dene/admin");
+                navigate("/admin/list");
             }else{alert(data.message)}
         })
     }
@@ -39,8 +39,8 @@ function Profile() {
     const roleUpgrade = () =>{
         AdminService.roleUpgrade(user.laborantId).then((response)=>{
            let data=response.data;
-           if(data.status===true){alert(data.message)}else{alert(data.message)}}
-    )}
+           if(data.status===true){alert(data.message);window.location.reload()}else{alert(data.message)}}
+           )}
 
   return (
     <div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>

@@ -48,24 +48,16 @@ const Login =() => {
     localStorage.clear()
     e.preventDefault();
     let response=null
-    let accessToken= "";
-    let role="";
     let from="";
     AuthService.login(user).then((res)=>{
     response=res;
       console.log(response)
       if(response.data.status===true){
           if(response.data.rol==='ADMIN'){
-            console.log("ADMIN")
-            accessToken=response.data.token
-            role=response.data.rol
-            from = "/dene/admin";} 
+            from = "/admin/list";} 
 
           else if(response.data.rol==='LABORANT'){
-            console.log("LABORANT")
-            accessToken=response.data.token
-            role=response.data.rol
-            from = "/home/reports";}
+            from = "/laborant/reports";}
           }
           localStorage.setItem("accesToken",JSON.stringify(res.data.token))
           localStorage.setItem("role",JSON.stringify(res.data.rol));
@@ -100,7 +92,7 @@ const Login =() => {
           />
         ))}
         <button>Submit</button>
-        <p>Don't have an account? <a href="register" class="link-info">Register here</a></p>
+        <p>Don't have an account?  <a href="register">Register here</a></p>
       </form>
     </div>
   )

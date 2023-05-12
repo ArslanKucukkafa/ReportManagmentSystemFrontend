@@ -1,5 +1,4 @@
 import axios from 'axios';
-import AuthService from './auth.service';
 
 const API_URL = "http://localhost:8080";
 
@@ -13,7 +12,6 @@ return {
 
 
 const saveReport = (formData) =>{
-    console.log(header)
     return axios.post(API_URL+"/api/v1/laboratories/saveReport",formData,{headers:header()})
 }
 
@@ -37,7 +35,6 @@ const listReport = () =>{
 }
 
 const getReport = (data) =>{
-    console.log("data -----: ",data)
     return axios.get(API_URL+"/api/v1/laboratories/getReport?reportId="+data,{headers:header()})
 }
 

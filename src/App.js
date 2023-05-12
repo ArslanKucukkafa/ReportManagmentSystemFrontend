@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AuthLayout from "./pages/AuthPage/AuthLayout"
 import Login from "./pages/AuthPage/LoginPage/Login"
 import Register from "./pages/AuthPage/RegisterPage/Register"
-import HomeLayout from "./pages/HomePage/HomeLayout"
+import HomeLayout from "./pages/HomePage/LaborantLayout"
 import Laborant from "./pages/HomePage/LaborantPage/Laborant"
 import Admin from "./pages/HomePage/AdminPage/Admin"
 import UnexpectedError from "./pages/ErrorPage/UnexpectedError"
@@ -33,7 +33,7 @@ function App() {
               <Route path="*" element={<UnexpectedError/>}/>
             {/* Protected Routes */}
               <Route element={<RequireAuth allowedRoles={[ROLES.laborant]}/>}>
-                <Route path = '/home' element={<HomeLayout/>}>
+                <Route path = '/laborant' element={<HomeLayout/>}>
                   <Route path = 'reportAdd' element={<ReportAdd/>}/>
                   <Route path = 'reports' element={<Laborant/>}/>
                   <Route path = 'detail' element={<ReportDetail/>}/>
@@ -41,8 +41,8 @@ function App() {
               </Route>
 
               <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
-                <Route path ='/dene' element={<AdminLayout/>}>
-                  <Route path ='admin' element={<Admin/>}/>
+                <Route path ='/admin' element={<AdminLayout/>}>
+                  <Route path ='list' element={<Admin/>}/>
                   <Route path='unconfirmed' element={<Unconfirmed/>}/>
                   <Route path='profile' element={<Profile/>}/>
                 </Route>

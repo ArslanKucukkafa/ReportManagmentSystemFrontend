@@ -40,7 +40,7 @@ const saveReport = () => {
 	LaborantService.saveReport(formData).then((response)=>{
 		console.log(response)
     if(response.data.status===true){
-      navigate("/home/reports")
+      navigate("/laborant/reports")
     }else{alert(response.data.message)} 
 	})
 }
@@ -57,7 +57,9 @@ const saveReport = () => {
     <div className="container rounded bg-white mt-5 mb-5">
     <div className="row">
         <div className="col-md-3 border-right">
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded" width="300px" height="300px" src={image}/></div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+              <img className="rounded" width="300px" height="300px" src={image}  alt='image'/>
+            </div>
         </div>
         <div className="col-md-5 border-right">
             <div className="p-3 py-5">

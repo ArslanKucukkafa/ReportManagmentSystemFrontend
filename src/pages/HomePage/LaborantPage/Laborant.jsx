@@ -26,7 +26,7 @@ useEffect(()=>{
 const changeReportId =(value)=>{
   // Route will be change when moved to proctected _--WARNING
   console.log(value);
-  navigate("/home/detail",{state:{reportId:value}})
+  navigate("/laborant/detail",{state:{reportId:value}})
 }
 
 

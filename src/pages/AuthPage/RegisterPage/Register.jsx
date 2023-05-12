@@ -80,18 +80,12 @@ const Register = () => {
   const handleSubmit = (e) => {
     console.log("test 1")
 
-//    setErrMsg("");
- //   setSuccessful(false);
-
-
     e.preventDefault();
     try{
       AuthService.register(values).then((response) => {
         if(response.data.status===false){
-          //setErrMsg(response.data.message)
           console.log(response.data.message)
         }else{
-          //setSuccessful(true)
           setValues("","","","","")
           navigate("/login")
         
@@ -101,9 +95,7 @@ const Register = () => {
     }catch(err){
       console.log("error ERROR")
       if (!err?.response) {
-        //setErrMsg('No Server Response');
     } else {
-        //setErrMsg(err.response.message)
     }
 }
     }
